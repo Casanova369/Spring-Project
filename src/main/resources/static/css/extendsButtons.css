@@ -1,0 +1,65 @@
+* {
+    font-family: Futura;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    border: none;
+    background-color:#333333;
+    color: #f2f2f2;
+    align-items: center;
+    gap: 5px;
+}
+
+.card button {
+    background-color:#333333;
+    color: #f2f2f2;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.card button:hover {
+    color: #04AA6D;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.create {
+    display: flex;
+    justify-content: center;
+    border: none;
+    background-color: #04AA6D;
+    color: #f2f2f2;
+    align-items: center;
+    gap: 5px;
+    width: 200px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.create:hover {
+    display: flex;
+    justify-content: center;
+    border: none;
+    background-color: #000000;
+    color: #f2f2f2;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.buttonprofiel {
+    display: flex;
+    justify-content: center;
+    border: none;
+    background-color:#333333;
+    color: #f2f2f2;
+    align-items: center;
+    gap: 5px;
+}
+
+
+

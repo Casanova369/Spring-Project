@@ -1,6 +1,7 @@
 package com.example.demo.util;
 
 import com.example.demo.dao.ArtigoDAO;
+import com.example.demo.model.Artigo;
 
 public class ArtigoUtil {
 
@@ -14,13 +15,12 @@ public class ArtigoUtil {
         /*
         artigoDAO.selectArtigosUsuarios(1); */
 
-        /*
         Artigo artigo = new Artigo();
         artigo.setTitle("titulo5");
         artigo.setText("textoArtigo5");
-        artigo.setUsuario(1);
+        artigo.setUsuario(5);
 
-        artigoDAO.createArtigo(artigo); */
+        artigoDAO.createArtigo(artigo);
 
         /* EDIT
         Artigo artigo = new Artigo();

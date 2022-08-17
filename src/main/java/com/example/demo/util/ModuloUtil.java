@@ -1,6 +1,7 @@
 package com.example.demo.util;
 
 import com.example.demo.dao.ModuloDAO;
+import com.example.demo.model.Modulo;
 
 public class ModuloUtil {
 

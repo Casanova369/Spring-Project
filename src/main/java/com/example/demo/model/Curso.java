@@ -46,10 +46,9 @@ public class Curso {
 
     public Curso() { }
 
-    public Curso(String titulo, String descricao, Date stamp, int usuario) {
+    public Curso(String titulo, String descricao, int usuario) {
         this.titulo = titulo;
         this.descricao = descricao;
-        this.stamp = stamp;
         this.usuario = usuario;
     }
 

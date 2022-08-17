@@ -1,0 +1,13 @@
+* {
+ font-family: Futura;
+ font-weight: normal;
+ font-style: italic;
+}
+
+h1 {
+ font-family: Futura;
+ font-weight: normal;
+ font-style: italic;
+ clear: left;
+ /* font-size: 32px; */
+}

@@ -1,0 +1,11 @@
+* {
+    font-family: Futura;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.grid {
+    display: grid;
+    place-items: center;
+    padding: 10px;
+}

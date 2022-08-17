@@ -46,6 +46,12 @@ public class Artigo {
 
     public Artigo() { }
 
+    public Artigo(String title, String text, int usuario) {
+        this.title = title;
+        this.text = text;
+        this.usuario = usuario;
+    }
+
     public Artigo(String title, String text, Date stamp, int usuario) {
         this.title = title;
         this.text = text;

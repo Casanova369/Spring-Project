@@ -20,17 +20,6 @@ public class ModuloDAO {
         modulo.setStamp(resultSet.getDate("stamp_modulo"));
         modulo.setCurso(resultSet.getInt("id_curso"));
 
-        for (int i = 0; i < 1; i++){
-            System.out.println("ModuloDTO -> fromResultSet");
-        }
-
-        System.out.println(
-                "\n-------NOVO Modulo-------"
-                        +"\nmodulo:"+modulo.getId()
-                        +"\n"+modulo.getTitulo()
-                        +"\n"+modulo.getStamp()
-                        +"\nusuario:"+modulo.getCurso()
-        );
         return modulo;
     }
     /* select artigo*/

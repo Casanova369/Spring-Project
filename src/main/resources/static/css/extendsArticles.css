@@ -1,0 +1,24 @@
+* {
+    font-family: Futura;
+}
+
+article {
+
+    padding: 8px 8px 20px 16px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    width: 700px;
+
+    transition: 0.3s;
+}
+
+.articles {
+    display: flex;
+    gap: 20px;
+    /* aqui esta o problema da altura */
+    flex-wrap: wrap;
+}

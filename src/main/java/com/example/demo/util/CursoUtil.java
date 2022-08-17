@@ -1,6 +1,7 @@
 package com.example.demo.util;
 
 import com.example.demo.dao.CursoDAO;
+import com.example.demo.model.Curso;
 
 public class CursoUtil {
 
@@ -19,7 +20,7 @@ public class CursoUtil {
         Curso curso = new Curso();
         curso.setTitulo("tituloCurso5");
         curso.setDescricao("desCurso5");
-        curso.setUsuario(1);
+        curso.setUsuario(5);
 
         cursoDAO.createCurso(curso); */
 

@@ -1,14 +1,18 @@
 package com.example.demo.dao;
 
 import com.example.demo.config.PostgreSQL;
+import com.example.demo.model.Artigo;
+import com.example.demo.model.Curso;
 import com.example.demo.model.Permissao;
 import com.example.demo.model.Usuario;
+import org.postgresql.jdbc.PgConnection;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 @Component
 public class UsuarioDAO {
@@ -24,29 +28,7 @@ public class UsuarioDAO {
         usuario.setSenha(resultset.getString("senha_usuario"));
         usuario.setStamp(resultset.getDate("stamp_usuario"));
         usuario.setStatus(resultset.getBoolean("status_usuario"));
-
-        System.out.println(
-        "query1:"   +"\n"+usuario.getId()
-                    +"\n"+usuario.getNome()
-                    +"\n"+usuario.getEmail()
-                    +"\n"+usuario.getSenha()
-                    +"\n"+usuario.getStamp()
-                    +"\n"+usuario.isStatus()
-        );
-
-        if(operation.equals("permissao")) {
-
-            Permissao permissao = new Permissao();
-            permissao.setId(resultset.getInt("id_permissao"));
-            permissao.setNome(resultset.getString("nome_permissao"));
-
-            usuario.setPermissao(permissao);
-
-            System.out.println(
-            "query2:"   +"\n"+usuario.getPermissao().getId()
-                        +"\n"+usuario.getPermissao().getNome()
-            );
-        }
+        usuario.setLevel(resultset.getString("level_usuario"));
 
         return usuario;
     }
@@ -69,6 +51,29 @@ public class UsuarioDAO {
 
         return usuario;
     }
+
+    public Optional<Usuario> selectByEmail (String email) {
+        Usuario usuario =  new Usuario();
+        try (Connection connection = new PostgreSQL().getConnection()) {
+
+            String query = "select * from usuario where email_usuario = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                usuario = fromResultSet(resultSet, "");
+
+                return Optional.of(usuario);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.empty();
+    }
+
     /* creates without permission */
     public Usuario createUsuario (String email, String senha) {
 
@@ -97,8 +102,10 @@ public class UsuarioDAO {
     public Usuario createUsuarioPermissao (Usuario usuario) {
 
         try (Connection connection = new PostgreSQL().getConnection()) {
-            String query =  "INSERT INTO usuario (nome_usuario, email_usuario, senha_usuario, stamp_usuario, status_usuario) " +
-                    "VALUES (?, ?, ?, CURRENT_TIMESTAMP, TRUE)";
+            connection.setAutoCommit(false);
+
+            String query =  "INSERT INTO usuario (nome_usuario, email_usuario, senha_usuario, stamp_usuario, status_usuario, level_usuario) " +
+                    "VALUES (?, ?, ?, CURRENT_TIMESTAMP, TRUE, 'principiante')";
 
             PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, usuario.getNome());
@@ -120,15 +127,49 @@ public class UsuarioDAO {
                 preparedStatement1.setInt(2, usuario.getPermissao().getId());
                 preparedStatement1.execute();
             }
+
+            query = "INSERT INTO usuario_rank VALUES (?, ?)";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setInt(2, usuario.getId());
+            preparedStatement.execute();
+
+
+            connection.setAutoCommit(true);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return usuario;
     }
+
+    public Usuario updateLevel (Usuario usuario) {
+
+        try (Connection connection = new PostgreSQL().getConnection()) {
+
+            String query =  "UPDATE usuario SET level_usuario = ? WHERE id_usuario = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, usuario.getLevel());
+            preparedStatement.setInt(2, usuario.getId());
+
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuario;
+    }
+
     /* edit user */
     public Usuario updateUsuario (Usuario usuario) {
 
         try (Connection connection = new PostgreSQL().getConnection()) {
+
             String query =  "UPDATE usuario SET email_usuario = ?, senha_usuario = ? WHERE id_usuario = ?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -147,4 +188,6 @@ public class UsuarioDAO {
         }
         return usuario;
     }
+
+
 }

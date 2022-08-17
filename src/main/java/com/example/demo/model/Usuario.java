@@ -9,6 +9,7 @@ public class Usuario {
     private String    senha;
     private Date      stamp;
     private boolean   status;
+    public String     level;
     private Permissao permissao;
 
     public int getId() {
@@ -53,6 +54,14 @@ public class Usuario {
         this.status = status;
     }
 
+    public String getLevel() {
+        return level;
+    }
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+
     public Permissao getPermissao() {
         return permissao;
     }
@@ -62,22 +71,57 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(String nome, String email, String senha, Date stamp, boolean status, Permissao permissao) {
+    public Usuario(String nome, String email, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
+
+    public Usuario(int id, String nome, String email, String senha) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
+
+    public Usuario(String nome, String email, String senha, boolean status, Permissao permissao) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.status = status;
+        this.level = level;
+        this.permissao = permissao;
+    }
+
+    public Usuario(String nome, String email, String senha, boolean status, String level, Permissao permissao) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.status = status;
+        this.level = level;
+        this.permissao = permissao;
+    }
+
+    public Usuario(String nome, String email, String senha, Date stamp, String level,boolean status, Permissao permissao) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.stamp = stamp;
         this.status = status;
+        this.level = level;
         this.permissao = permissao;
     }
 
-    public Usuario(int id, String nome, String email, String senha, Date stamp, boolean status, Permissao permissao) {
+    public Usuario(int id, String nome, String email, String senha, Date stamp, String level, boolean status, Permissao permissao) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.stamp = stamp;
         this.status = status;
+        this.level = level;
         this.permissao = permissao;
     }
+
+
 }

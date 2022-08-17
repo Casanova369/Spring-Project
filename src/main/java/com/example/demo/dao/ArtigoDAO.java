@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import com.example.demo.config.PostgreSQL;
 import com.example.demo.model.Artigo;
+import com.example.demo.model.Usuario;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -20,18 +21,6 @@ public class ArtigoDAO {
         artigo.setStamp(resultSet.getDate("stamp_artigo"));
         artigo.setUsuario(resultSet.getInt("id_usuario"));
 
-        for (int i = 0; i < 1; i++){
-            System.out.println("ArtigoDTO -> fromResultSet");
-        }
-
-        System.out.println(
-                "\n-------NOVO ARTIGO-------"
-                +"\nartigo:"+artigo.getId()
-                +"\n"+artigo.getTitle()
-                +"\n"+artigo.getText()
-                +"\n"+artigo.getStamp()
-                +"\nusuario:"+artigo.getUsuario()
-        );
         return artigo;
     }
 
@@ -99,6 +88,9 @@ public class ArtigoDAO {
     public Artigo createArtigo (Artigo artigo) {
 
         try (Connection connection = new PostgreSQL().getConnection()) {
+
+            connection.setAutoCommit(false);
+
             String query =  "INSERT INTO artigo (tit_artigo, tex_artigo, stamp_artigo, id_usuario) " +
                             "VALUES (?, ?, CURRENT_TIMESTAMP, ?)";
 
@@ -112,6 +104,14 @@ public class ArtigoDAO {
 
             while (resultSet.next())
                 artigo.setId(resultSet.getInt(1));
+
+            query = "UPDATE usuario_rank SET publicao = publicao + 1 WHERE id_usuario = ?";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, artigo.getUsuario());
+            preparedStatement.execute();
+
+            connection.setAutoCommit(true);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,15 +142,26 @@ public class ArtigoDAO {
         return artigo;
     }
 
-    public Artigo deleteArtigo (int id) {
+    public Artigo deleteArtigo (int id_us, int id_ar) {
 
         try (Connection connection = new PostgreSQL().getConnection()) {
+
+            connection.setAutoCommit(false);
+
             String query =  "DELETE FROM artigo WHERE id_artigo = ?;";
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, id_ar);
 
             preparedStatement.execute();
+
+            query = "UPDATE usuario_rank SET publicao = publicao - 1 WHERE id_usuario = ?";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id_us);
+            preparedStatement.execute();
+
+            connection.setAutoCommit(true);
 
 
         } catch (SQLException e) {
